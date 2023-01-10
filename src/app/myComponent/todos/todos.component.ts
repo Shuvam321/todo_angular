@@ -7,9 +7,11 @@ import { Todo } from "../../todos";
 })
 export class TodosComponent {
   // @Input todo;
+  localItem : string | null;
     todos:Todo[];
     constructor(){
-      
+      this.localItem = localStorage.getItem("todos");
+      if(this.localItem == null){
      this.todos = [
       // {
       //   sno:1,
@@ -29,18 +31,25 @@ export class TodosComponent {
       //   desc:"Description",
       //   active:false,
       //  }
+      
     ]
+  }
+  else{
+    this.todos = JSON.parse(this.localItem);
+  }
 
     }
     deleteTodo(todo : Todo){
       console.log(todo);
       const index = this.todos.indexOf(todo);
       this.todos.splice(index, 1);
+      localStorage.setItem("todos",JSON.stringify(this.todos));
     }
     addTodo(todo : Todo){
       console.log(todo);
       // const index = this.todos.indexOf(todo);
       this.todos.push(todo);
+      localStorage.setItem("todos",JSON.stringify(this.todos));
     }
 
 
